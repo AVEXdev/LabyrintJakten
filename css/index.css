@@ -29,11 +29,6 @@ body {
     
 }
 
-/* Portrait layout (default) */
-.start {
-    text-decoration:none;
-
-}
 body a {
     display: inline;
     text-decoration: none;

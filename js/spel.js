@@ -12,7 +12,7 @@ modelfungo = function() {
     x.textContent = "Game Over"
 
 }
-
+// Win message
 modelfunwin = function() {
     console.log("func called")
     modal.style.display = "block";
@@ -40,7 +40,7 @@ window.onclick = function(event) {
 }
 
 
-//var now = new Date().getTime();
+// Timer start, set interval 1 sec ticking
 function startTimer(duration, display) {
     var start = Date.now(),
         diff,
@@ -67,7 +67,7 @@ function startTimer(duration, display) {
     timer();
     setInterval(timer,1000)
 }
-
+// 30 seconds timer to complete
 window.onload = function () {
     twominutes = 30;
     x = document.querySelector("#timerel");
@@ -75,52 +75,53 @@ window.onload = function () {
 }
 playing = true
 window.addEventListener('keydown',doKeyDown,true);
-
+// Moving keybinds
 function doKeyDown(evt)
 {
     var handled = false;
     if (playing) {
         switch (evt.keyCode) {
-            case 38:  /* Up arrow was pressed */
+            case 38:  /* Up arrow */
                 m.moveup("canvas");
                 handled = true
                 break;
-            case 87:  /* Up arrow was pressed */
+            case 87:  /* W */
                 m.moveup("canvas");
                 handled = true
                 break;
-            case 40 :  /* Down arrow was pressed */
+            case 40 :  /* Down arrow */
                 m.movedown("canvas");
                 handled = true
                 break;
-            case 83 :  /* Down arrow was pressed */
+            case 83 :  /* S*/
                 m.movedown("canvas");
                 handled = true
                 break;
-            case 37:  /* Left arrow was pressed */
+            case 37:  /* Left arrow */
                 m.moveleft("canvas");
                 handled = true
                 break;
-            case 65:  /* Left arrow was pressed */
+            case 65:  /* A */
                 m.moveleft("canvas");
                 handled = true
                 break;
-            case 39:  /* Right arrow was pressed */
+            case 39:  /* Right arrow */
                 m.moveright("canvas");
                 handled = true
                 break;
-            case 68:  /* Right arrow was pressed */
+            case 68:  /* E */
                 m.moveright("canvas");
                 handled = true
                 break;
         }
+        // Count moves when key pressed
         if (m.checker("canvas"))
             playing = false
         console.log(m.getMoves())
 
     }
     if (handled)
-        evt.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
+        evt.preventDefault(); // prevent arrow keys from scrolling the page
 }
 
 
@@ -132,7 +133,7 @@ var dsd = function (size) {
     this.init = function () {
         for (var i = 0; i < this.N; i++) {
             this.P[i] = i;
-            this.R[i] = 0;
+            this.R[i] = 1;
         }
     }
 
@@ -156,10 +157,11 @@ var dsd = function (size) {
         return this.P[x];
     }
 };
-
+// Setting random math function to create random maze onload
 function random(min, max)      { return (min + (Math.random() * (max - min)));            };
 function randomChoice(choices) { return choices[Math.round(random(0, choices.length-1))]; };
 
+// ===========The Maze===============
 var maze = function (X, Y) {
     this.N = X;
     this.M = Y;
@@ -249,9 +251,7 @@ var maze = function (X, Y) {
                         this.breakwall(this.EL[i]);
                         this.EL[i][2] = 0;
                     }
-
                 }
-                //break;
             }
 
             else if (D.find(x) != D.find(y)) {
@@ -266,7 +266,7 @@ var maze = function (X, Y) {
 
     };
 
-
+    // == Design ==
     this.draw_canvas = function (id) {
         this.canvas = document.getElementById(id);
         var scale = this.S;
@@ -295,13 +295,12 @@ var maze = function (X, Y) {
         for (var i = 0; i < 2 * this.N + 1; i++) {
             for (var j = 0; j < 2 * this.M + 1; j++) {
                 if (this.Board[i][j] == '&') {
-                   // console.log(i,j)
                     return [i,j]
                 }
             }
         }
     }
-
+    
     this.moveclear = function (a,b) {
         var scale = this.S;
         this.ctx = this.canvas.getContext('2d');
@@ -317,7 +316,7 @@ var maze = function (X, Y) {
         this.ctx.fillRect(scale * a, scale * b, scale, scale);
         this.Board[a][b] = '&'
     }
-
+    // Movement
     this.moveup = function (id) {
         cord = this.checkPos(id);
         var scale = this.S;
@@ -389,6 +388,7 @@ var maze = function (X, Y) {
         else
             return
     }
+    // Check position
     this.checker = function (id) {  
         cord = this.checkPos(id);
         i = cord[0]
@@ -399,7 +399,7 @@ var maze = function (X, Y) {
         }
         return 0
     }
-
+    // Return moves
     this.getMoves = function () {
         return this.moves;
     }
@@ -411,7 +411,7 @@ m.init();
 m.add_edges();
 m.gen_maze();
 m.draw_canvas("canvas");
-
+// Number of moves under the Maze with optimal delay
 function drawMoves() {
     document.getElementById("c").innerHTML = "Moves: "+ m.getMoves()
 }
